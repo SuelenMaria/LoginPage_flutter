@@ -1,5 +1,10 @@
 import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
+import 'package:login/screams/text_page.dart';
+// ignore: unused_import
+import 'package:login/screams/criar_conta.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -14,8 +19,8 @@ class LoginPage extends StatelessWidget {
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              Color.fromARGB(255, 119, 175, 248),
-              Color.fromARGB(255, 81, 135, 167),
+              Colors.deepPurple,
+              Colors.pinkAccent,
             ],
           ),
         ),
@@ -24,7 +29,7 @@ class LoginPage extends StatelessWidget {
           children: [
             const SizedBox(height: 30),
             const Text(
-              "Digite os dados de acesso nos campos abaixo.",
+              "Preencha os campos abaixo.",
               style: TextStyle(
                 color: Colors.white,
               ),
@@ -69,7 +74,12 @@ class LoginPage extends StatelessWidget {
                       fontSize: 14,
                       fontWeight: FontWeight.w600),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => TextPage()),
+                  );
+                },
               ),
             ),
             const SizedBox(height: 7),
@@ -86,12 +96,42 @@ class LoginPage extends StatelessWidget {
                       fontSize: 14,
                       fontWeight: FontWeight.w600),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  // Navegar para a tela de criação de conta
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => CriarConta()),
+                  );
+                },
+              ),
+            ),
+            GestureDetector(
+              onTap: () => _abrirPoliticaDePrivacidade(),
+              child: Container(
+                padding: EdgeInsets.all(16.0),
+                child: Text(
+                  'Política de Privacidade',
+                  style: TextStyle(
+                    color: Colors.blue, // Cor do texto como a de um link
+                    decoration: TextDecoration.underline, // Adiciona sublinhado
+                    fontWeight:
+                        FontWeight.normal, // Pode ajustar conforme necessário
+                  ),
+                ),
               ),
             ),
           ],
         ),
       ),
     );
+  }
+}
+
+_abrirPoliticaDePrivacidade() async {
+  const url = 'https://www.google.com.br'; // URL desejada
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    throw 'Não foi possível abrir a URL: $url';
   }
 }
